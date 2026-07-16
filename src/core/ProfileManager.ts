@@ -179,6 +179,7 @@ class ProfileManager {
 
     const newBadges = this.awardForTrip({
       score: summary.score,
+      bonuses: summary.bonusesEarned,
       spottedItemIds: summary.spottedItemIds,
       counted: true
     });

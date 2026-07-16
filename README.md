@@ -89,12 +89,18 @@ the game.
 - Score = base points × chosen multiplier (missed bonus = ×1). Activated
   bonuses also fire a celebration and count toward the trip's Bonuses stat.
 - **Badges are achievements** defined in `src/data/badges.ts`: score milestones
-  in a single trip (100 / 250 / 500), trips-played milestones (1 / 5 / 10 / 25),
-  and spotting feats (a semi truck on 5 different trips; spot a rainbow). Each
-  is a pure rule over a `BadgeContext`, so adding one is a single catalog entry.
-  Score and item badges unlock live mid-trip with a toast; trips-played badges
-  land on the summary. Once earned they're permanent, and the profile screen
-  shows the whole catalog with locked badges greyed out as goals to chase.
+  in a single trip (100 / 250 / 500), bonus milestones in a single trip
+  (5 / 10 / 15 / 20 / 25), trips-played milestones (1 / 5 / 10 / 25), and
+  spotting feats (a semi truck on 5 different trips; spot a rainbow). Each is a
+  pure rule over a `BadgeContext`, so adding one is a single catalog entry.
+  Score, bonus and item badges unlock live mid-trip with a toast; trips-played
+  badges land on the summary. Once earned they're permanent, and the profile
+  screen shows the whole catalog with locked badges greyed out as goals to chase.
+- The top bonus tiers are deliberately aimed **ahead of the current inventory**:
+  only 19 of 28 items carry a bonus, so one trip can hold at most 19 (best
+  themed trip: 10). The validator in `.claude/skills/manage-spotting-items`
+  reports which tiers are still out of reach and how many bonus-capable items
+  would close the gap — re-run it as the inventory grows.
 - The trip ends manually via "End Game" or automatically 1.5 s after the
   progress bar hits 100%. Trip end updates high score, trips played and
   history (capped at 15).

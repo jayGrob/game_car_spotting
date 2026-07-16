@@ -48,6 +48,57 @@ export const BADGES: BadgeDefinition[] = [
     rule: (c) => c.tripScore >= 500
   },
 
+  // ---------- Bonus mastery (within a single trip) ----------
+  // These are a deliberate ladder to grow into: only 19 items currently carry a
+  // bonus, so the top tiers aren't reachable until the inventory grows. The
+  // validator in .claude/skills/manage-spotting-items reports which tiers are
+  // still out of reach as items are added.
+  {
+    id: 'bonus-hunter',
+    name: 'Bonus Hunter',
+    description: 'Land 5 bonuses in a single trip',
+    icon: 'bolt',
+    color: 'text-amber-500',
+    bg: 'bg-amber-50',
+    rule: (c) => c.tripBonuses >= 5
+  },
+  {
+    id: 'bonus-pro',
+    name: 'Bonus Pro',
+    description: 'Land 10 bonuses in a single trip',
+    icon: 'offline_bolt',
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    rule: (c) => c.tripBonuses >= 10
+  },
+  {
+    id: 'bonus-master',
+    name: 'Bonus Master',
+    description: 'Land 15 bonuses in a single trip',
+    icon: 'electric_bolt',
+    color: 'text-orange-500',
+    bg: 'bg-orange-50',
+    rule: (c) => c.tripBonuses >= 15
+  },
+  {
+    id: 'bonus-champion',
+    name: 'Bonus Champion',
+    description: 'Land 20 bonuses in a single trip',
+    icon: 'flash_on',
+    color: 'text-orange-600',
+    bg: 'bg-orange-50',
+    rule: (c) => c.tripBonuses >= 20
+  },
+  {
+    id: 'bonus-legend',
+    name: 'Bonus Legend',
+    description: 'Land 25 bonuses in a single trip',
+    icon: 'thunderstorm',
+    color: 'text-purple-600',
+    bg: 'bg-purple-50',
+    rule: (c) => c.tripBonuses >= 25
+  },
+
   // ---------- Trips played ----------
   {
     id: 'first-trip',

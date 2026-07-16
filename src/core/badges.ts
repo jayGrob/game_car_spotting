@@ -12,6 +12,7 @@ import { BADGES } from '../data/badges';
  */
 export interface TripSnapshot {
   score: number;
+  bonuses: number;
   spottedItemIds: number[];
   counted: boolean;
 }
@@ -28,6 +29,10 @@ export function buildContext(profile: Profile, trip: TripSnapshot | null): Badge
     // trip the profile has ever had is the fairest thing to judge score badges
     // against — it's the only per-trip score still on record.
     tripScore: trip ? trip.score : profile.highScore,
+    // Unlike score, no per-trip bonus tally was ever kept on the profile, so a
+    // retroactive check has nothing to judge — bonus badges start from the next
+    // trip rather than being back-dated from history that doesn't exist.
+    tripBonuses: trip ? trip.bonuses : 0,
     itemTrips: (id) => (profile.itemStats[String(id)]?.trips ?? 0) + provisional(id),
     itemTotal: (id) => (profile.itemStats[String(id)]?.total ?? 0) + provisional(id)
   };

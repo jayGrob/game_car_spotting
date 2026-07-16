@@ -32,14 +32,14 @@ const ICON_NAMES = [
   'add', 'agriculture', 'airport_shuttle', 'ambulance', 'arrow_back',
   'bedroom_baby', 'bolt', 'car_repair', 'casino', 'cell_tower', 'check',
   'check_circle', 'chevron_right', 'close', 'construction', 'cottage',
-  'directions_bus', 'directions_car', 'edit', 'edit_road', 'electric_car',
-  'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
-  'flight', 'grass', 'local_gas_station', 'local_police', 'local_shipping',
-  'local_taxi', 'location_city', 'looks', 'map', 'military_tech', 'pedal_bike',
-  'pets', 'play_arrow', 'route', 'search', 'search_check', 'shield', 'speed',
-  'stars', 'traffic', 'train', 'trophy', 'two_wheeler', 'visibility',
-  'visibility_off', 'volume_off', 'volume_up', 'water_drop', 'wind_power',
-  'workspace_premium'
+  'directions_bus', 'directions_car', 'edit', 'edit_road', 'electric_bolt',
+  'electric_car', 'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck',
+  'flag', 'flash_on', 'flight', 'grass', 'local_gas_station', 'local_police',
+  'local_shipping', 'local_taxi', 'location_city', 'looks', 'map',
+  'military_tech', 'offline_bolt', 'pedal_bike', 'pets', 'play_arrow', 'route',
+  'search', 'search_check', 'shield', 'speed', 'stars', 'thunderstorm',
+  'traffic', 'train', 'trophy', 'two_wheeler', 'visibility', 'visibility_off',
+  'volume_off', 'volume_up', 'water_drop', 'wind_power', 'workspace_premium'
 ].sort();
 
 // Request full axis RANGES (not pinned values) so the served woff2 keeps the

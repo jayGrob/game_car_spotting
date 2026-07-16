@@ -119,6 +119,7 @@ const objects = extractObjects(invArr);
 const seenIds = new Map();
 const usedIcons = new Set();
 const themeCounts = Object.fromEntries(VALID_THEMES.map((t) => [t, 0]));
+const bonusCounts = Object.fromEntries(VALID_THEMES.map((t) => [t, 0]));
 let itemCount = 0;
 
 const field = (obj, key) => {
@@ -193,6 +194,7 @@ for (const obj of objects) {
   const bonusIdx = obj.indexOf('bonus');
   const bonusVal = field(obj, 'bonus');
   if (bonusVal !== 'null') {
+    if (VALID_THEMES.includes(theme)) bonusCounts[theme]++;
     const bonusText = bonusIdx >= 0 ? obj.slice(bonusIdx) : '';
     if (!/question\s*:/.test(bonusText)) {
       errors.push(`${label}: bonus is present but has no question (use \`bonus: null\` for a plain item).`);
@@ -237,6 +239,47 @@ if (existsSync(badgesPath)) {
       );
     }
   }
+
+  // Per-trip bonus badges can only be earned if a single deck can actually hold
+  // that many bonus-capable items. The ladder is intentionally aimed ahead of
+  // the current inventory, so this reports progress rather than failing.
+  const thresholds = [...badgeSrc.matchAll(/tripBonuses\s*>=\s*(\d+)/g)].map((m) => Number(m[1]));
+  if (thresholds.length > 0) {
+    const maxDeck = readCardCounts();
+    const totalBonus = VALID_THEMES.reduce((sum, t) => sum + bonusCounts[t], 0);
+    // A themed trip draws its own theme plus the 'general' pool.
+    const themed = VALID_THEMES.filter((t) => t !== 'general').map((t) => ({
+      theme: t,
+      max: bonusCounts[t] + bonusCounts.general
+    }));
+    const bestThemed = themed.reduce((a, b) => (b.max > a.max ? b : a), { theme: '-', max: 0 });
+    const maxSurprise = Math.min(totalBonus, maxDeck);
+    const maxPerTrip = Math.max(maxSurprise, bestThemed.max);
+
+    const unreachable = [...new Set(thresholds)].filter((n) => n > maxPerTrip).sort((a, b) => a - b);
+    infos.push(
+      `Bonus reachability: a single trip can hold at most ${maxPerTrip} bonuses ` +
+        `(Surprise-${maxDeck} deck: ${maxSurprise}; best themed trip: ${bestThemed.theme} ${bestThemed.max}). ` +
+        `${totalBonus} of ${itemCount} items carry a bonus.`
+    );
+    if (unreachable.length > 0) {
+      warnings.push(
+        `Bonus badge tier(s) ${unreachable.join(', ')} are not reachable yet — ` +
+          `add ${unreachable[unreachable.length - 1] - maxPerTrip} more bonus-capable item(s) ` +
+          `to make the top tier earnable.`
+      );
+    }
+  }
+}
+
+/** Largest "Surprise Me" deck, from src/data/constants.ts (falls back to 24). */
+function readCardCounts() {
+  const constantsPath = path.join(root, 'src/data/constants.ts');
+  if (!existsSync(constantsPath)) return 24;
+  const m = readFileSync(constantsPath, 'utf8').match(/CARD_COUNTS\s*=\s*\[([^\]]+)\]/);
+  if (!m) return 24;
+  const nums = [...m[1].matchAll(/\d+/g)].map((x) => Number(x[0]));
+  return nums.length > 0 ? Math.max(...nums) : 24;
 }
 
 // ---- Cross-checks ----

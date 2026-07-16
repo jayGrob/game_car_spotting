@@ -67,6 +67,8 @@ export interface BadgeContext {
   tripsPlayed: number;
   /** Score of the trip being judged (the best-ever trip when none is in play). */
   tripScore: number;
+  /** Bonuses activated in the trip being judged. */
+  tripBonuses: number;
   /** Distinct trips an item has been spotted in, counting the trip in progress. */
   itemTrips: (itemId: number) => number;
   /** Times an item has been spotted overall, counting the trip in progress. */

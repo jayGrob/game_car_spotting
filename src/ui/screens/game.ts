@@ -272,6 +272,7 @@ function confirmSpot(multiplier: number, bonusActivated: boolean): void {
   // the badge counter and the toast land in the same frame as the new score.
   const fresh = profileManager.awardForTrip({
     score: gameState.score,
+    bonuses: gameState.bonusesEarned,
     spottedItemIds: gameState.spottedItemIds,
     counted: false
   });

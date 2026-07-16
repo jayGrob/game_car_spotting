@@ -82,9 +82,15 @@ full-looking board. `general` items count toward every theme's total.
 "I spotted it but the bonus condition wasn't met" — give it `mult: 1` and no
 `isBonus`. Options with `isBonus: true` are the reward path: they score the
 higher multiplier, fire a celebration animation + sound, and count toward the
-player's bonus/badge totals. Two or three options work best (the sheet lays
-out 2 as a pair, 3 as a row). Phrase the question so a kid can answer it from
-the back seat with a yes/no or a quick pick.
+player's bonus total. Two or three options work best (the sheet lays out 2 as a
+pair, 3 as a row). Phrase the question so a kid can answer it from the back seat
+with a yes/no or a quick pick.
+
+Giving an item a bonus also feeds the per-trip **bonus badges** (5 / 10 / 15 /
+20 / 25 in one trip), whose top tiers are deliberately aimed ahead of the
+current inventory. The validator prints how many bonuses a single trip can hold
+today and which tiers are still unreachable, so run it after adding items to see
+where the ladder stands.
 
 ## Adding an item
 
