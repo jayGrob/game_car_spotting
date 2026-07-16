@@ -28,8 +28,8 @@ export const HISTORY_LIMIT = 15;
 export const CARD_COUNTS = [8, 16, 24] as const;
 export const DEFAULT_CARD_COUNT = 16;
 
-/** Every N activated bonuses the player earns one badge. */
-export const BONUSES_PER_BADGE = 2;
+/** How long a "badge unlocked" toast stays on screen. */
+export const BADGE_TOAST_MS = 2800;
 
 /** Delay before the grid re-renders after a spot (lets the check animation play). */
 export const SPOT_ANIMATION_MS = 1200;

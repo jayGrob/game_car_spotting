@@ -2,6 +2,8 @@ import { $ } from '../dom';
 import { ui } from '../UIManager';
 import { profileManager } from '../../core/ProfileManager';
 import { AVATAR_EMOJI } from '../../data/constants';
+import { BADGES } from '../../data/badges';
+import type { EarnedBadge } from '../../types';
 import { openProfileEditor } from './profileEditor';
 
 let viewingProfileId: number | null = null;
@@ -57,20 +59,31 @@ function renderChart(history: number[]): void {
     .join('');
 }
 
-function renderBadges(badges: { icon: string; color: string; count: number }[]): void {
-  const container = $('badges-container');
-  if (badges.length === 0) {
-    container.innerHTML = `<p class="col-span-3 text-center text-sm font-bold text-slate-300 py-4">No badges yet. Spot bonuses to earn them!</p>`;
-    return;
-  }
+/**
+ * Shows the whole catalog rather than only what's been earned: a locked badge
+ * still shows its icon and description, so the list doubles as the list of
+ * things left to chase.
+ */
+function renderBadges(earnedBadges: EarnedBadge[]): void {
+  const earned = new Set(earnedBadges.map((b) => b.id));
+  $('badge-progress').innerText = `${earned.size} of ${BADGES.length}`;
 
-  container.innerHTML = badges
-    .map(
-      (b) => `
-        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 flex flex-col items-center justify-center relative">
-            <span class="material-symbols-rounded text-3xl ${b.color} mb-1">${b.icon}</span>
-            <span class="absolute -top-2 -right-2 bg-slate-800 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-sm">x${b.count}</span>
-        </div>`
-    )
-    .join('');
+  $('badges-container').innerHTML = BADGES.map((def) => {
+    const isEarned = earned.has(def.id);
+    return `
+        <div class="flex items-center gap-3 py-3">
+            <div class="w-11 h-11 rounded-2xl ${isEarned ? def.bg : 'bg-slate-50'} flex items-center justify-center shrink-0">
+                <span class="material-symbols-rounded text-2xl ${isEarned ? def.color : 'text-slate-300'}">${def.icon}</span>
+            </div>
+            <div class="min-w-0 flex-1">
+                <p class="font-bold text-sm ${isEarned ? 'text-slate-800' : 'text-slate-400'} leading-tight">${def.name}</p>
+                <p class="text-xs ${isEarned ? 'text-slate-400' : 'text-slate-300'} leading-tight">${def.description}</p>
+            </div>
+            ${
+              isEarned
+                ? `<span class="material-symbols-rounded text-green-500 text-xl shrink-0">check_circle</span>`
+                : ''
+            }
+        </div>`;
+  }).join('');
 }

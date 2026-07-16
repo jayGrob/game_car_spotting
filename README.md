@@ -27,11 +27,13 @@ src/
   style.css                    Tailwind v4 import + @font-face + keyframes/component CSS
   storage/storage.ts           Versioned, crash-proof localStorage wrapper
   data/
-    constants.ts               Avatars, colors, tuning knobs (history cap, badge rate…)
+    constants.ts               Avatars, colors, tuning knobs (history cap, timings…)
     inventory.ts               Master item database (28 items across 4 themes)
+    badges.ts                  Achievement catalog (name, icon, unlock rule)
   core/
-    ProfileManager.ts          Profiles CRUD, active selection, trip recording
+    ProfileManager.ts          Profiles CRUD, active selection, trip recording, badge awarding
     GameState.ts               Active trip: deck, spots, score; persisted every mutation
+    badges.ts                  Badge rule evaluation (context assembly + what's newly earned)
   audio/SoundManager.ts        Local celebration sounds + persisted mute state
   ui/
     UIManager.ts               Screen router (show/hide, onShow re-render hooks)
@@ -84,9 +86,15 @@ the game.
 
 - Themed trips load all items tagged with that theme **plus** `general` items;
   "Surprise Me" deals a random deck of 8/16/24 from the whole inventory.
-- Score = base points × chosen multiplier (missed bonus = ×1).
-- Every 2nd activated bonus awards a badge, styled after the item that
-  triggered it; badges accumulate on the profile.
+- Score = base points × chosen multiplier (missed bonus = ×1). Activated
+  bonuses also fire a celebration and count toward the trip's Bonuses stat.
+- **Badges are achievements** defined in `src/data/badges.ts`: score milestones
+  in a single trip (100 / 250 / 500), trips-played milestones (1 / 5 / 10 / 25),
+  and spotting feats (a semi truck on 5 different trips; spot a rainbow). Each
+  is a pure rule over a `BadgeContext`, so adding one is a single catalog entry.
+  Score and item badges unlock live mid-trip with a toast; trips-played badges
+  land on the summary. Once earned they're permanent, and the profile screen
+  shows the whole catalog with locked badges greyed out as goals to chase.
 - The trip ends manually via "End Game" or automatically 1.5 s after the
   progress bar hits 100%. Trip end updates high score, trips played and
   history (capped at 15).

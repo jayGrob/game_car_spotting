@@ -74,8 +74,11 @@
                 </div>
             </div>
             <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm mb-24">
-                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Badges Earned</h4>
-                <div class="grid grid-cols-3 gap-3" id="badges-container"></div>
+                <div class="flex items-baseline justify-between mb-2">
+                    <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Badges</h4>
+                    <span id="badge-progress" class="text-xs font-bold text-slate-400">0 of 0</span>
+                </div>
+                <div class="flex flex-col divide-y divide-slate-100" id="badges-container"></div>
             </div>
         </section>
 
@@ -207,6 +210,8 @@
 
             <div id="effect-container" class="fixed inset-0 pointer-events-none z-40 overflow-hidden"></div>
 
+            <div id="badge-toast" class="badge-toast toast-hidden flex flex-col gap-2 pointer-events-none"></div>
+
             <main class="p-4 flex-1 pb-24">
                 <div id="items-grid" class="grid grid-cols-2 gap-4"></div>
             </main>
@@ -263,6 +268,11 @@
                         <p id="end-badges" class="text-xl font-bold text-purple-100">0</p>
                         <p class="text-[9px] font-bold text-purple-300 uppercase tracking-wider mt-1">Badges</p>
                     </div>
+                </div>
+
+                <div id="end-badges-list" class="mb-8 hidden">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-blue-200 mb-3 text-center">New Badges Unlocked</p>
+                    <div id="end-badges-items" class="flex flex-col gap-2"></div>
                 </div>
 
                 <div class="mt-auto flex flex-col gap-3 pb-4">

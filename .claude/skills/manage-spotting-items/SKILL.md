@@ -120,16 +120,24 @@ Find the item by `name` or `id` and change the fields. Notes:
 
 ## Removing an item
 
-Delete its object from the array. That's it — nothing else references items by
-name. Do **not** renumber the remaining ids to close the gap; ids are permanent
-handles. Optionally, if the removed item used a unique icon, drop that icon from
-`ICON_NAMES` and run `npm run assets` to shave the font, but leaving it is
-harmless.
+Delete its object from the array. Do **not** renumber the remaining ids to close
+the gap — ids are permanent handles, and a kid's saved in-progress game
+references them.
+
+One thing to check first: some **badges depend on specific item ids** (see the
+constants at the top of [`src/data/badges.ts`](../../../src/data/badges.ts) —
+e.g. Big Rig Hunter needs the Semi Truck, Lucky needs the Rainbow). Deleting one
+of those items makes its badge permanently unearnable. The validator catches
+this, but if you hit it, either keep the item or retire the badge alongside it.
+
+Optionally, if the removed item used a unique icon, drop that icon from
+`ICON_NAMES` and run `npm run assets` to shave the font — leaving it is harmless.
 
 ## Validate, test, deploy
 
 1. **Validate** the inventory — catches duplicate ids, bad enum values,
-   unregistered icons (the font trap), and malformed bonuses:
+   unregistered icons (the font trap, for both items and badges), malformed
+   bonuses, and badges left pointing at a deleted item:
    ```
    node .claude/skills/manage-spotting-items/scripts/validate-inventory.mjs
    ```

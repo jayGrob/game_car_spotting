@@ -4,8 +4,8 @@ import { gameState } from '../../core/GameState';
 import { profileManager } from '../../core/ProfileManager';
 import { soundManager } from '../../audio/SoundManager';
 import { playCelebration } from '../effects';
-import { AVATAR_EMOJI, AUTO_END_DELAY_MS, SPOT_ANIMATION_MS } from '../../data/constants';
-import type { InventoryItem } from '../../types';
+import { AVATAR_EMOJI, AUTO_END_DELAY_MS, BADGE_TOAST_MS, SPOT_ANIMATION_MS } from '../../data/constants';
+import type { BadgeDefinition, InventoryItem } from '../../types';
 import { showEndTrip } from './endTrip';
 
 type Filter = 'all' | 'vehicle' | 'object';
@@ -16,6 +16,7 @@ let hideCompleted = false;
 let popoverOpen = false;
 let activeItem: InventoryItem | null = null;
 let endScheduled = false;
+let toastTimer: number | undefined;
 
 export function initGameScreen(): void {
   $('btn-end-game').addEventListener('click', endGame);
@@ -66,6 +67,7 @@ function onShow(): void {
   endScheduled = false;
 
   closeSheet();
+  hideBadgeToast();
   syncFilterButtons();
   syncHideButton();
   syncPopoverVisibility();
@@ -264,9 +266,20 @@ function confirmSpot(multiplier: number, bonusActivated: boolean): void {
   const item = activeItem;
 
   gameState.spot(item, multiplier, bonusActivated);
+
+  // The spot may have pushed the trip past a badge threshold (score, or an item
+  // milestone like the 5th trip with a semi truck) — check before repainting so
+  // the badge counter and the toast land in the same frame as the new score.
+  const fresh = profileManager.awardForTrip({
+    score: gameState.score,
+    spottedItemIds: gameState.spottedItemIds,
+    counted: false
+  });
+  gameState.recordBadges(fresh.map((b) => b.id));
   updateCounters();
 
   if (bonusActivated) playCelebration();
+  if (fresh.length > 0) showBadgeToast(fresh, !bonusActivated);
 
   const checkOverlay = document.getElementById(`check-${item.id}`);
   if (checkOverlay) {
@@ -286,14 +299,57 @@ function confirmSpot(multiplier: number, bonusActivated: boolean): void {
   setTimeout(renderGrid, SPOT_ANIMATION_MS);
 }
 
+// ---------- Badge unlock toast ----------
+
+/**
+ * Slides in a card naming the badge just unlocked. `withSound` is false when a
+ * bonus celebration is already playing its own fanfare — two clips at once just
+ * sounds like noise.
+ */
+function showBadgeToast(badges: BadgeDefinition[], withSound: boolean): void {
+  const toast = $('badge-toast');
+  toast.innerHTML = badges
+    .map(
+      (b) => `
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 p-4 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl ${b.bg} flex items-center justify-center shrink-0">
+                <span class="material-symbols-rounded text-3xl ${b.color}">${b.icon}</span>
+            </div>
+            <div class="min-w-0">
+                <p class="text-[10px] font-black uppercase tracking-widest text-amber-500">Badge Unlocked</p>
+                <p class="font-extrabold text-slate-800 leading-tight">${b.name}</p>
+                <p class="text-xs text-slate-400 leading-tight">${b.description}</p>
+            </div>
+        </div>`
+    )
+    .join('');
+
+  toast.classList.remove('toast-hidden');
+  if (withSound) soundManager.play('rainbows');
+
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(hideBadgeToast, BADGE_TOAST_MS);
+}
+
+function hideBadgeToast(): void {
+  window.clearTimeout(toastTimer);
+  $('badge-toast').classList.add('toast-hidden');
+}
+
 // ---------- End of trip ----------
 
 function endGame(): void {
   if (!gameState.isActive) return;
   if (popoverOpen) togglePopover();
   closeSheet();
+  hideBadgeToast();
 
   const summary = gameState.finish();
-  const { isNewHighScore } = profileManager.recordTrip(summary);
-  showEndTrip(summary, isNewHighScore);
+  // Recording the trip is what makes the trips-played milestones true, so any
+  // badges it returns are ones only the finished trip could unlock.
+  const { isNewHighScore, newBadges } = profileManager.recordTrip(summary);
+  showEndTrip(
+    { ...summary, badgeIds: [...summary.badgeIds, ...newBadges.map((b) => b.id)] },
+    isNewHighScore
+  );
 }

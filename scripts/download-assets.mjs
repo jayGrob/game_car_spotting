@@ -24,20 +24,22 @@ const AUDIO = {
   'balloons.ogg': 'https://actions.google.com/sounds/v1/crowds/battle_crowd_celebrate_stutter.ogg'
 };
 
-// Every Material Symbols glyph the app uses (inventory icons + UI chrome).
-// Keep this list in sync when adding items to src/data/inventory.ts, then
-// re-run `npm run assets`. Subsetting shrinks the font from ~5 MB to ~10s of KB.
+// Every Material Symbols glyph the app uses (inventory items, badges, and UI
+// chrome). Keep this in sync when adding items to src/data/inventory.ts or
+// badges to src/data/badges.ts, then re-run `npm run assets`. Subsetting
+// shrinks the font from ~5 MB to ~10s of KB.
 const ICON_NAMES = [
   'add', 'agriculture', 'airport_shuttle', 'ambulance', 'arrow_back',
   'bedroom_baby', 'bolt', 'car_repair', 'casino', 'cell_tower', 'check',
-  'chevron_right', 'close', 'construction', 'cottage', 'directions_bus',
-  'directions_car', 'edit', 'edit_road', 'electric_car', 'emoji_events',
-  'fire_extinguisher', 'fire_truck', 'flag', 'flight', 'grass',
-  'local_gas_station', 'local_police', 'local_shipping', 'local_taxi',
-  'location_city', 'looks', 'pedal_bike', 'pets', 'play_arrow', 'route',
-  'search', 'search_check', 'speed', 'traffic', 'train', 'trophy',
-  'two_wheeler', 'visibility', 'visibility_off', 'volume_off', 'volume_up',
-  'water_drop', 'wind_power'
+  'check_circle', 'chevron_right', 'close', 'construction', 'cottage',
+  'directions_bus', 'directions_car', 'edit', 'edit_road', 'electric_car',
+  'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
+  'flight', 'grass', 'local_gas_station', 'local_police', 'local_shipping',
+  'local_taxi', 'location_city', 'looks', 'map', 'military_tech', 'pedal_bike',
+  'pets', 'play_arrow', 'route', 'search', 'search_check', 'shield', 'speed',
+  'stars', 'traffic', 'train', 'trophy', 'two_wheeler', 'visibility',
+  'visibility_off', 'volume_off', 'volume_up', 'water_drop', 'wind_power',
+  'workspace_premium'
 ].sort();
 
 // Request full axis RANGES (not pinned values) so the served woff2 keeps the

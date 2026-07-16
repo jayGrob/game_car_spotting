@@ -33,6 +33,7 @@ if (!root) {
 }
 
 const inventoryPath = path.join(root, 'src/data/inventory.ts');
+const badgesPath = path.join(root, 'src/data/badges.ts');
 const assetsPath = path.join(root, 'scripts/download-assets.mjs');
 
 const errors = [];
@@ -208,6 +209,36 @@ for (const obj of objects) {
   }
 }
 
+// ---- Badges: icons need the same font-subset treatment, and any item id a
+// ---- badge rule depends on must still exist or the badge becomes unearnable.
+let badgeCount = 0;
+if (existsSync(badgesPath)) {
+  const badgeSrc = readFileSync(badgesPath, 'utf8');
+
+  for (const m of badgeSrc.matchAll(/\bicon\s*:\s*'([^']+)'/g)) {
+    const icon = m[1];
+    badgeCount++;
+    usedIcons.add(icon);
+    if (registeredIcons.size > 0 && !registeredIcons.has(icon)) {
+      errors.push(
+        `Badge icon '${icon}' (src/data/badges.ts) is NOT in ICON_NAMES. ` +
+          `Add it to scripts/download-assets.mjs and run \`npm run assets\`.`
+      );
+    }
+  }
+
+  // e.g. `const SEMI_TRUCK = 9;` — the item ids badge rules are pinned to.
+  for (const m of badgeSrc.matchAll(/^const\s+([A-Z][A-Z0-9_]*)\s*=\s*(\d+)\s*;/gm)) {
+    const [, constName, idStr] = m;
+    if (!seenIds.has(Number(idStr))) {
+      errors.push(
+        `Badge dependency ${constName} = ${idStr} (src/data/badges.ts) points at an item id ` +
+          `that no longer exists in the inventory — the badge using it can never be earned.`
+      );
+    }
+  }
+}
+
 // ---- Cross-checks ----
 if (registeredIcons.size > 0) {
   const orphans = [...registeredIcons].filter((i) => !usedIcons.has(i)).sort();
@@ -228,7 +259,7 @@ for (const t of VALID_THEMES) {
 // ---- Report ----
 const line = '─'.repeat(60);
 console.log(line);
-console.log(`Inventory check — ${itemCount} items, ${seenIds.size} unique ids`);
+console.log(`Inventory check — ${itemCount} items, ${seenIds.size} unique ids, ${badgeCount} badge icons`);
 console.log(line);
 for (const e of errors) console.log(`  ERROR  ${e}`);
 for (const w of warnings) console.log(`  WARN   ${w}`);

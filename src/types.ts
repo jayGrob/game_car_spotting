@@ -43,10 +43,45 @@ export interface InventoryItem {
   bonus: BonusChallenge | null;
 }
 
-export interface BadgeStack {
+/** A badge the player has unlocked, referencing a definition in data/badges.ts. */
+export interface EarnedBadge {
+  id: string;
+  /** Epoch ms, so the UI can show the most recent first if it ever wants to. */
+  earnedAt: number;
+}
+
+/** Lifetime spotting record for one inventory item. */
+export interface ItemStat {
+  /** Times spotted across all trips. */
+  total: number;
+  /** Number of distinct trips it was spotted in at least once. */
+  trips: number;
+}
+
+/**
+ * Everything a badge rule is allowed to look at. Assembled by core/badges.ts
+ * so rules stay one-liners that read like their own description.
+ */
+export interface BadgeContext {
+  /** Trips finished. Only includes the current trip once it has been recorded. */
+  tripsPlayed: number;
+  /** Score of the trip being judged (the best-ever trip when none is in play). */
+  tripScore: number;
+  /** Distinct trips an item has been spotted in, counting the trip in progress. */
+  itemTrips: (itemId: number) => number;
+  /** Times an item has been spotted overall, counting the trip in progress. */
+  itemTotal: (itemId: number) => number;
+}
+
+export interface BadgeDefinition {
+  id: string;
+  name: string;
+  /** Shown under the name — doubles as the "how do I get this?" hint while locked. */
+  description: string;
   icon: string;
   color: string;
-  count: number;
+  bg: string;
+  rule: (ctx: BadgeContext) => boolean;
 }
 
 export interface Profile {
@@ -58,7 +93,9 @@ export interface Profile {
   tripsPlayed: number;
   /** Scores of the last 15 trips, oldest first. */
   history: number[];
-  badges: BadgeStack[];
+  badges: EarnedBadge[];
+  /** Lifetime per-item spotting stats, keyed by item id (string via JSON). */
+  itemStats: Record<string, ItemStat>;
 }
 
 export interface SpotRecord {
@@ -71,6 +108,8 @@ export interface TripSummary {
   foundCount: number;
   totalCount: number;
   bonusesEarned: number;
-  badgesEarned: number;
-  badgeStacks: BadgeStack[];
+  /** Ids of every item spotted, so lifetime stats and badge rules can use them. */
+  spottedItemIds: number[];
+  /** Badges unlocked over the course of this trip (live ones, plus any at trip end). */
+  badgeIds: string[];
 }

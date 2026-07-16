@@ -1,7 +1,6 @@
-import type { BadgeStack, GameTheme, InventoryItem, SpotRecord, TripSummary } from '../types';
+import type { GameTheme, InventoryItem, SpotRecord, TripSummary } from '../types';
 import { masterInventory, getItemById } from '../data/inventory';
 import { storage } from '../storage/storage';
-import { BONUSES_PER_BADGE } from '../data/constants';
 
 const GAME_KEY = 'activeGame';
 
@@ -12,9 +11,8 @@ interface ActiveGame {
   spotted: Record<string, SpotRecord>;
   score: number;
   bonusesEarned: number;
-  badgesEarned: number;
-  /** Badges earned during this trip, merged into the profile at trip end. */
-  badgeStacks: BadgeStack[];
+  /** Badges unlocked so far this trip. Awarding itself is ProfileManager's job. */
+  badgeIds: string[];
 }
 
 function shuffle<T>(source: T[]): T[] {
@@ -36,6 +34,8 @@ class GameState {
   constructor() {
     this.game = storage.get<ActiveGame | null>(GAME_KEY, null);
     if (this.game && !Array.isArray(this.game.itemIds)) this.game = null;
+    // A trip saved before achievement badges existed has no badgeIds array.
+    if (this.game && !Array.isArray(this.game.badgeIds)) this.game.badgeIds = [];
   }
 
   get isActive(): boolean {
@@ -57,8 +57,7 @@ class GameState {
       spotted: {},
       score: 0,
       bonusesEarned: 0,
-      badgesEarned: 0,
-      badgeStacks: []
+      badgeIds: []
     };
     this.persist();
   }
@@ -83,11 +82,26 @@ class GameState {
   }
 
   get badgesEarned(): number {
-    return this.game?.badgesEarned ?? 0;
+    return this.game?.badgeIds.length ?? 0;
+  }
+
+  get badgeIds(): string[] {
+    return this.game ? [...this.game.badgeIds] : [];
+  }
+
+  /** Notes badges ProfileManager just awarded, so the trip can report them. */
+  recordBadges(ids: string[]): void {
+    if (!this.game || ids.length === 0) return;
+    this.game.badgeIds.push(...ids);
+    this.persist();
   }
 
   get foundCount(): number {
     return this.game ? Object.keys(this.game.spotted).length : 0;
+  }
+
+  get spottedItemIds(): number[] {
+    return this.game ? Object.keys(this.game.spotted).map(Number) : [];
   }
 
   get totalCount(): number {
@@ -99,27 +113,15 @@ class GameState {
   }
 
   /**
-   * Records a spot. Score = base points x chosen multiplier. Every
-   * BONUSES_PER_BADGE activated bonuses awards a badge styled after the item
-   * that triggered it.
+   * Records a spot. Score = base points x chosen multiplier. Badges are not
+   * decided here — they depend on lifetime profile stats, so the caller runs
+   * the badge check against ProfileManager once the spot has landed.
    */
   spot(item: InventoryItem, multiplier: number, bonusActivated: boolean): void {
     if (!this.game || this.game.spotted[item.id]) return;
 
     this.game.score += item.points * multiplier;
-
-    if (bonusActivated) {
-      this.game.bonusesEarned += 1;
-      if (this.game.bonusesEarned % BONUSES_PER_BADGE === 0) {
-        this.game.badgesEarned += 1;
-        const existing = this.game.badgeStacks.find((b) => b.icon === item.icon);
-        if (existing) {
-          existing.count += 1;
-        } else {
-          this.game.badgeStacks.push({ icon: item.icon, color: item.color, count: 1 });
-        }
-      }
-    }
+    if (bonusActivated) this.game.bonusesEarned += 1;
 
     this.game.spotted[item.id] = { bonusActivated };
     this.persist();
@@ -132,8 +134,8 @@ class GameState {
       foundCount: this.foundCount,
       totalCount: this.totalCount,
       bonusesEarned: this.bonusesEarned,
-      badgesEarned: this.badgesEarned,
-      badgeStacks: this.game ? [...this.game.badgeStacks] : []
+      spottedItemIds: this.spottedItemIds,
+      badgeIds: this.badgeIds
     };
     this.game = null;
     this.persist();
