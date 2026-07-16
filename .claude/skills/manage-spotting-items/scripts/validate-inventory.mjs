@@ -263,11 +263,21 @@ if (existsSync(badgesPath)) {
         `${totalBonus} of ${itemCount} items carry a bonus.`
     );
     if (unreachable.length > 0) {
-      warnings.push(
-        `Bonus badge tier(s) ${unreachable.join(', ')} are not reachable yet — ` +
-          `add ${unreachable[unreachable.length - 1] - maxPerTrip} more bonus-capable item(s) ` +
-          `to make the top tier earnable.`
-      );
+      const top = unreachable[unreachable.length - 1];
+      // Two very different causes: not enough bonus items to fill a deck, or a
+      // tier that exceeds the deck size itself (which no amount of items fixes).
+      if (top > maxDeck) {
+        warnings.push(
+          `Bonus badge tier(s) ${unreachable.join(', ')} can never be reached: the largest Surprise ` +
+            `deck is ${maxDeck} cards, so one trip can hold at most ${maxDeck} bonuses no matter how ` +
+            `many bonus items exist. Raise CARD_COUNTS in src/data/constants.ts above ${top}, or lower the tier.`
+        );
+      } else {
+        warnings.push(
+          `Bonus badge tier(s) ${unreachable.join(', ')} are not reachable yet — ` +
+            `add ${top - maxPerTrip} more bonus-capable item(s) to make the top tier earnable.`
+        );
+      }
     }
   }
 }

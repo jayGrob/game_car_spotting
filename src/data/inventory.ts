@@ -6,7 +6,7 @@ import type { InventoryItem } from '../types';
  * Notes:
  * - `icon` is a Google Material Symbols (Rounded) glyph name.
  * - `theme: 'general'` items are mixed into every themed trip.
- * - The list is intentionally larger than the biggest "Surprise Me" deck (24)
+ * - The list is intentionally larger than the biggest "Surprise Me" deck (32)
  *   so a full-size random deck never repeats.
  */
 export const masterInventory: InventoryItem[] = [
@@ -56,7 +56,7 @@ export const masterInventory: InventoryItem[] = [
   {
     id: 9, theme: 'highway', category: 'vehicle', name: 'Semi Truck', points: 10,
     icon: 'local_shipping', color: 'text-slate-600', bg: 'bg-slate-50',
-    bonus: { question: 'Is the trailer flatbed or enclosed?', options: [{ label: 'Enclosed', mult: 1 }, { label: 'Flatbed', mult: 2, isBonus: true }] }
+    bonus: { question: 'Double or triple trailer?', options: [{ label: 'Single', mult: 1 }, { label: 'Double!', mult: 2, isBonus: true }, { label: 'Triple!!', mult: 3, isBonus: true }] }
   },
   {
     id: 10, theme: 'highway', category: 'vehicle', name: 'Motorcycle', points: 15,
@@ -64,9 +64,10 @@ export const masterInventory: InventoryItem[] = [
     bonus: { question: 'Did the rider wave back?', options: [{ label: 'No', mult: 1 }, { label: 'They waved!', mult: 2, isBonus: true }] }
   },
   {
-    id: 11, theme: 'highway', category: 'vehicle', name: 'RV Camper', points: 15,
+    // A motorhome that drives itself — the towed kind is 'Towed Camper' below.
+    id: 11, theme: 'highway', category: 'vehicle', name: 'RV', points: 15,
     icon: 'airport_shuttle', color: 'text-teal-600', bg: 'bg-teal-50',
-    bonus: { question: 'Is it towing something?', options: [{ label: 'No', mult: 1 }, { label: 'Yes!', mult: 2, isBonus: true }] }
+    bonus: { question: 'Is it also towing a car?', options: [{ label: 'No', mult: 1 }, { label: 'Towing a car!', mult: 2, isBonus: true }] }
   },
   {
     id: 12, theme: 'highway', category: 'vehicle', name: 'Tow Truck', points: 20,
@@ -88,6 +89,48 @@ export const masterInventory: InventoryItem[] = [
     icon: 'electric_car', color: 'text-green-600', bg: 'bg-green-50',
     bonus: null
   },
+  {
+    // At least 3 semis nose to tail.
+    id: 29, theme: 'highway', category: 'vehicle', name: 'Convoy', points: 20,
+    icon: 'local_shipping', color: 'text-indigo-600', bg: 'bg-indigo-50',
+    bonus: { question: 'How many trucks in the row?', options: [{ label: '3 or 4', mult: 1 }, { label: '5 or more!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 30, theme: 'highway', category: 'vehicle', name: 'Military Vehicle', points: 20,
+    icon: 'military_tech', color: 'text-green-800', bg: 'bg-green-50',
+    bonus: { question: 'Is it in a military convoy?', options: [{ label: 'On its own', mult: 1 }, { label: 'A whole convoy!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 31, theme: 'highway', category: 'vehicle', name: 'Abandoned Vehicle', points: 15,
+    icon: 'car_crash', color: 'text-stone-500', bg: 'bg-stone-100',
+    bonus: null
+  },
+  {
+    id: 32, theme: 'highway', category: 'vehicle', name: 'Tanker Truck', points: 15,
+    icon: 'oil_barrel', color: 'text-zinc-600', bg: 'bg-zinc-100',
+    bonus: null
+  },
+  {
+    // The kind a truck pulls — the self-driving kind is 'RV' above.
+    id: 33, theme: 'highway', category: 'vehicle', name: 'Towed Camper', points: 15,
+    icon: 'rv_hookup', color: 'text-teal-700', bg: 'bg-teal-50',
+    bonus: null
+  },
+  {
+    id: 34, theme: 'highway', category: 'vehicle', name: 'Animal Hauler', points: 20,
+    icon: 'pets', color: 'text-amber-800', bg: 'bg-amber-50',
+    bonus: { question: 'Can you see animals inside?', options: [{ label: "Can't tell", mult: 1 }, { label: 'Animals!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 35, theme: 'highway', category: 'object', name: 'Fireworks Store', points: 15,
+    icon: 'celebration', color: 'text-pink-600', bg: 'bg-pink-50',
+    bonus: null
+  },
+  {
+    id: 36, theme: 'highway', category: 'object', name: 'Rest Stop', points: 10,
+    icon: 'local_parking', color: 'text-blue-700', bg: 'bg-blue-50',
+    bonus: { question: 'Did you stop there?', options: [{ label: 'Drove past', mult: 1 }, { label: 'We stopped!', mult: 2, isBonus: true }] }
+  },
 
   // ---------- Country ----------
   {
@@ -106,14 +149,14 @@ export const masterInventory: InventoryItem[] = [
     bonus: { question: 'Is it running?', options: [{ label: 'No', mult: 1 }, { label: 'Yes!', mult: 2, isBonus: true }] }
   },
   {
-    id: 19, theme: 'country', category: 'object', name: 'Farm House', points: 10,
+    id: 19, theme: 'country', category: 'object', name: 'Farm', points: 10,
     icon: 'cottage', color: 'text-red-700', bg: 'bg-red-50',
-    bonus: null
+    bonus: { question: 'Any animals at the farm?', options: [{ label: 'None', mult: 1 }, { label: 'Cows!', mult: 2, isBonus: true }, { label: 'Goats!', mult: 3, isBonus: true }] }
   },
   {
     id: 20, theme: 'country', category: 'object', name: 'Wind Turbine', points: 10,
     icon: 'wind_power', color: 'text-sky-600', bg: 'bg-sky-50',
-    bonus: { question: 'Are the blades spinning?', options: [{ label: 'No', mult: 1 }, { label: 'Spinning!', mult: 2, isBonus: true }] }
+    bonus: { question: 'Are there more than 3?', options: [{ label: '3 or fewer', mult: 1 }, { label: 'More than 3!', mult: 2, isBonus: true }] }
   },
   {
     id: 21, theme: 'country', category: 'object', name: 'Hay Bales', points: 10,
@@ -124,6 +167,16 @@ export const masterInventory: InventoryItem[] = [
     id: 22, theme: 'country', category: 'object', name: 'Water Tower', points: 10,
     icon: 'water_drop', color: 'text-blue-500', bg: 'bg-blue-50',
     bonus: null
+  },
+  {
+    id: 37, theme: 'country', category: 'creature', name: 'Roadkill', points: 10,
+    icon: 'skull', color: 'text-stone-500', bg: 'bg-stone-100',
+    bonus: null
+  },
+  {
+    id: 38, theme: 'country', category: 'object', name: 'Solar Panel', points: 10,
+    icon: 'solar_power', color: 'text-yellow-500', bg: 'bg-yellow-50',
+    bonus: { question: 'Are there more than 3?', options: [{ label: '3 or fewer', mult: 1 }, { label: 'More than 3!', mult: 2, isBonus: true }] }
   },
 
   // ---------- General (mixed into every theme) ----------
@@ -155,6 +208,46 @@ export const masterInventory: InventoryItem[] = [
   {
     id: 28, theme: 'general', category: 'object', name: 'Rainbow', points: 25,
     icon: 'looks', color: 'text-purple-500', bg: 'bg-purple-50',
+    bonus: null
+  },
+  {
+    id: 39, theme: 'general', category: 'object', name: 'Porta Potty', points: 10,
+    icon: 'wc', color: 'text-sky-700', bg: 'bg-sky-50',
+    bonus: null
+  },
+  {
+    id: 40, theme: 'general', category: 'vehicle', name: 'Amazon Van', points: 10,
+    icon: 'package_2', color: 'text-orange-500', bg: 'bg-orange-50',
+    bonus: null
+  },
+  {
+    id: 41, theme: 'general', category: 'object', name: 'Campground Sign', points: 10,
+    icon: 'camping', color: 'text-green-700', bg: 'bg-green-50',
+    bonus: null
+  },
+  {
+    id: 42, theme: 'general', category: 'vehicle', name: 'U-Haul', points: 15,
+    icon: 'moving', color: 'text-orange-600', bg: 'bg-orange-50',
+    bonus: null
+  },
+  {
+    id: 43, theme: 'general', category: 'object', name: 'Airport', points: 20,
+    icon: 'local_airport', color: 'text-sky-600', bg: 'bg-sky-50',
+    bonus: { question: 'Is it an international airport?', options: [{ label: 'Regular', mult: 1 }, { label: 'International!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 44, theme: 'general', category: 'object', name: 'Historical Marker', points: 15,
+    icon: 'history_edu', color: 'text-amber-800', bg: 'bg-amber-50',
+    bonus: { question: 'Did you stop to read it?', options: [{ label: 'Drove past', mult: 1 }, { label: 'We stopped!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 45, theme: 'general', category: 'vehicle', name: 'Convertible', points: 15,
+    icon: 'car_rental', color: 'text-rose-500', bg: 'bg-rose-50',
+    bonus: { question: 'Is the top down?', options: [{ label: 'Top up', mult: 1 }, { label: 'Top down!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 46, theme: 'general', category: 'vehicle', name: 'Exotic Sports Car', points: 25,
+    icon: 'sports_motorsports', color: 'text-amber-500', bg: 'bg-amber-50',
     bonus: null
   }
 ];

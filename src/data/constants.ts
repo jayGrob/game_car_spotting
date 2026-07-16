@@ -24,8 +24,12 @@ export const DEFAULT_COLOR: ProfileColor = 'bg-blue-500';
 /** Maximum number of trip scores kept per profile. */
 export const HISTORY_LIMIT = 15;
 
-/** Card counts selectable for "Surprise Me" trips. */
-export const CARD_COUNTS = [8, 16, 24] as const;
+/**
+ * Card counts selectable for "Surprise Me" trips. The largest deck also caps how
+ * many bonuses a single trip can hold, which is what the top bonus badges are
+ * measured against — see the reachability check in the manage-spotting-items skill.
+ */
+export const CARD_COUNTS = [8, 16, 24, 32] as const;
 export const DEFAULT_CARD_COUNT = 16;
 
 /** How long a "badge unlocked" toast stays on screen. */

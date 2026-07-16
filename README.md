@@ -28,7 +28,7 @@ src/
   storage/storage.ts           Versioned, crash-proof localStorage wrapper
   data/
     constants.ts               Avatars, colors, tuning knobs (history cap, timings…)
-    inventory.ts               Master item database (28 items across 4 themes)
+    inventory.ts               Master item database (46 items across 4 themes)
     badges.ts                  Achievement catalog (name, icon, unlock rule)
   core/
     ProfileManager.ts          Profiles CRUD, active selection, trip recording, badge awarding
@@ -96,11 +96,12 @@ the game.
   Score, bonus and item badges unlock live mid-trip with a toast; trips-played
   badges land on the summary. Once earned they're permanent, and the profile
   screen shows the whole catalog with locked badges greyed out as goals to chase.
-- The top bonus tiers are deliberately aimed **ahead of the current inventory**:
-  only 19 of 28 items carry a bonus, so one trip can hold at most 19 (best
-  themed trip: 10). The validator in `.claude/skills/manage-spotting-items`
-  reports which tiers are still out of reach and how many bonus-capable items
-  would close the gap — re-run it as the inventory grows.
+- Bonus tiers are bounded by two things: how many items carry a bonus (28 of 46)
+  and the largest Surprise deck (32 cards), since a trip can never hold more
+  bonuses than it has cards. All five tiers are currently reachable — Bonus
+  Legend (25) needs a Surprise-32 deck; the best themed trip holds 16. The
+  validator in `.claude/skills/manage-spotting-items` recomputes this and flags
+  any tier that has drifted out of reach — re-run it as the inventory changes.
 - The trip ends manually via "End Game" or automatically 1.5 s after the
   progress bar hits 100%. Trip end updates high score, trips played and
   history (capped at 15).

@@ -30,16 +30,20 @@ const AUDIO = {
 // shrinks the font from ~5 MB to ~10s of KB.
 const ICON_NAMES = [
   'add', 'agriculture', 'airport_shuttle', 'ambulance', 'arrow_back',
-  'bedroom_baby', 'bolt', 'car_repair', 'casino', 'cell_tower', 'check',
-  'check_circle', 'chevron_right', 'close', 'construction', 'cottage',
-  'directions_bus', 'directions_car', 'edit', 'edit_road', 'electric_bolt',
-  'electric_car', 'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck',
-  'flag', 'flash_on', 'flight', 'grass', 'local_gas_station', 'local_police',
-  'local_shipping', 'local_taxi', 'location_city', 'looks', 'map',
-  'military_tech', 'offline_bolt', 'pedal_bike', 'pets', 'play_arrow', 'route',
-  'search', 'search_check', 'shield', 'speed', 'stars', 'thunderstorm',
-  'traffic', 'train', 'trophy', 'two_wheeler', 'visibility', 'visibility_off',
-  'volume_off', 'volume_up', 'water_drop', 'wind_power', 'workspace_premium'
+  'bedroom_baby', 'bolt', 'camping', 'car_crash', 'car_rental', 'car_repair',
+  'casino', 'celebration', 'cell_tower', 'check', 'check_circle',
+  'chevron_right', 'close', 'construction', 'cottage', 'directions_bus',
+  'directions_car', 'edit', 'edit_road', 'electric_bolt', 'electric_car',
+  'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
+  'flash_on', 'flight', 'grass', 'history_edu', 'local_airport',
+  'local_gas_station', 'local_parking', 'local_police', 'local_shipping',
+  'local_taxi', 'location_city', 'looks', 'map', 'military_tech', 'moving',
+  'offline_bolt', 'oil_barrel', 'package_2', 'pedal_bike', 'pets',
+  'play_arrow', 'route', 'rv_hookup', 'search', 'search_check', 'shield',
+  'skull', 'solar_power', 'speed', 'sports_motorsports', 'stars',
+  'thunderstorm', 'traffic', 'train', 'trophy', 'two_wheeler', 'visibility',
+  'visibility_off', 'volume_off', 'volume_up', 'water_drop', 'wc',
+  'wind_power', 'workspace_premium'
 ].sort();
 
 // Request full axis RANGES (not pinned values) so the served woff2 keeps the

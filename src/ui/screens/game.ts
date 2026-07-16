@@ -8,7 +8,7 @@ import { AVATAR_EMOJI, AUTO_END_DELAY_MS, BADGE_TOAST_MS, SPOT_ANIMATION_MS } fr
 import type { BadgeDefinition, InventoryItem } from '../../types';
 import { showEndTrip } from './endTrip';
 
-type Filter = 'all' | 'vehicle' | 'object';
+type Filter = 'all' | 'vehicle' | 'object' | 'creature';
 
 // Transient (per-visit) UI state; the durable game state lives in GameState.
 let currentFilter: Filter = 'all';
