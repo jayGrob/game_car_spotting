@@ -33,7 +33,7 @@ const ICON_NAMES = [
   'bedroom_baby', 'bolt', 'camping', 'car_crash', 'car_rental', 'car_repair',
   'casino', 'celebration', 'cell_tower', 'check', 'check_circle',
   'chevron_right', 'close', 'construction', 'cottage', 'directions_bus',
-  'directions_car', 'edit', 'edit_road', 'electric_bolt', 'electric_car',
+  'diamond', 'directions_car', 'edit', 'edit_road', 'electric_bolt', 'electric_car',
   'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
   'flash_on', 'flight', 'grass', 'history_edu', 'local_airport',
   'local_gas_station', 'local_parking', 'local_police', 'local_shipping',

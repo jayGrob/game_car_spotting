@@ -208,7 +208,7 @@ export const masterInventory: InventoryItem[] = [
   {
     id: 28, theme: 'general', category: 'object', name: 'Rainbow', points: 25,
     icon: 'looks', color: 'text-purple-500', bg: 'bg-purple-50',
-    bonus: null
+    bonus: { question: 'Still raining, or a double?', options: [{ label: 'Just a rainbow', mult: 1 }, { label: 'Still raining!', mult: 2, isBonus: true }, { label: 'Double rainbow!!', mult: 4, isBonus: true }] }
   },
   {
     id: 39, theme: 'general', category: 'object', name: 'Porta Potty', points: 10,
@@ -248,7 +248,12 @@ export const masterInventory: InventoryItem[] = [
   {
     id: 46, theme: 'general', category: 'vehicle', name: 'Exotic Sports Car', points: 25,
     icon: 'sports_motorsports', color: 'text-amber-500', bg: 'bg-amber-50',
-    bonus: null
+    bonus: { question: 'What kind is it?', options: [{ label: 'Another exotic', mult: 1 }, { label: 'Ferrari or Lambo!', mult: 2, isBonus: true }, { label: 'McLaren!!', mult: 4, isBonus: true }] }
+  },
+  {
+    id: 47, theme: 'general', category: 'vehicle', name: 'Ultra Luxury Car', points: 25,
+    icon: 'diamond', color: 'text-indigo-500', bg: 'bg-indigo-50',
+    bonus: { question: 'What kind is it?', options: [{ label: 'Another luxury car', mult: 1 }, { label: 'Bentley!', mult: 2, isBonus: true }, { label: 'Rolls-Royce!!', mult: 4, isBonus: true }] }
   }
 ];
 

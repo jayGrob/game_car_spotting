@@ -75,11 +75,15 @@ export interface BadgeContext {
   itemTotal: (itemId: number) => number;
 }
 
+/** Which ladder a badge belongs to. Groups the generated README table. */
+export type BadgeGroup = 'Score' | 'Bonuses' | 'Trips' | 'Spotting';
+
 export interface BadgeDefinition {
   id: string;
   name: string;
   /** Shown under the name — doubles as the "how do I get this?" hint while locked. */
   description: string;
+  group: BadgeGroup;
   icon: string;
   color: string;
   bg: string;
