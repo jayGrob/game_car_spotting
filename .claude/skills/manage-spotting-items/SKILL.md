@@ -149,14 +149,19 @@ Optionally, if the removed item used a unique icon, drop that icon from
    ```
    Fix anything it flags. A clean run means the data is internally consistent
    and every icon is in the font subset.
-2. **Preview locally:**
+2. **Refresh the README inventory tables** so the documented counts match the
+   data (they're generated, never hand-edited):
+   ```
+   npm run stats
+   ```
+3. **Preview locally:**
    ```
    npm run dev
    ```
    Open the game, start a trip in the relevant theme (or Surprise Me), and
    confirm the new/edited card shows the right icon, color, points, and bonus
    question.
-3. **Ship it** — the repo auto-deploys to GitHub Pages on push:
+4. **Ship it** — the repo auto-deploys to GitHub Pages on push:
    ```
    git add -A
    git commit -m "Add Deer to country inventory"

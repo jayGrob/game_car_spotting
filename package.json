@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "assets": "node scripts/download-assets.mjs"
+    "assets": "node scripts/download-assets.mjs",
+    "stats": "node scripts/inventory-stats.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
