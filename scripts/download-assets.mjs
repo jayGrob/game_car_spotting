@@ -29,21 +29,24 @@ const AUDIO = {
 // badges to src/data/badges.ts, then re-run `npm run assets`. Subsetting
 // shrinks the font from ~5 MB to ~10s of KB.
 const ICON_NAMES = [
-  'add', 'agriculture', 'airport_shuttle', 'ambulance', 'arrow_back',
-  'bedroom_baby', 'bolt', 'camping', 'car_crash', 'car_rental', 'car_repair',
-  'casino', 'celebration', 'cell_tower', 'check', 'check_circle',
-  'chevron_right', 'close', 'construction', 'cottage', 'directions_bus',
-  'diamond', 'directions_car', 'edit', 'edit_road', 'electric_bolt', 'electric_car',
+  'accessibility_new', 'ad', 'add', 'agriculture', 'airport_shuttle',
+  'ambulance', 'apartment', 'arrow_back', 'bedroom_baby', 'bolt', 'camping',
+  'car_crash', 'car_rental', 'car_repair', 'casino', 'celebration',
+  'cell_tower', 'check', 'check_circle', 'chevron_right', 'cleaning_services',
+  'close', 'construction', 'cottage', 'delete', 'diamond', 'directions_bus', 'directions_car', 'edit',
+  'edit_road', 'electric_bolt', 'electric_car', 'electric_scooter',
   'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
-  'flash_on', 'flight', 'grass', 'history_edu', 'local_airport',
-  'local_gas_station', 'local_parking', 'local_police', 'local_shipping',
-  'local_taxi', 'location_city', 'looks', 'map', 'military_tech', 'moving',
-  'offline_bolt', 'oil_barrel', 'package_2', 'pedal_bike', 'pets',
-  'play_arrow', 'route', 'rv_hookup', 'search', 'search_check', 'shield',
-  'skull', 'solar_power', 'speed', 'sports_motorsports', 'stars',
-  'thunderstorm', 'traffic', 'train', 'trophy', 'two_wheeler', 'visibility',
-  'visibility_off', 'volume_off', 'volume_up', 'water_drop', 'wc',
-  'wind_power', 'workspace_premium'
+  'flash_on', 'flight', 'grass', 'history_edu', 'icecream', 'local_airport',
+  'local_gas_station', 'local_parking', 'local_police', 'local_post_office',
+  'local_shipping', 'local_taxi', 'location_city', 'looks', 'lunch_dining',
+  'map', 'military_tech', 'moving', 'offline_bolt', 'oil_barrel',
+  'package_2', 'pedal_bike', 'pets', 'play_arrow', 'precision_manufacturing',
+  'raven', 'route',
+  'rv_hookup', 'search', 'search_check', 'shield', 'skull',
+  'sound_detection_dog_barking', 'solar_power', 'speed', 'sports_motorsports',
+  'stars', 'thunderstorm', 'traffic', 'train', 'trophy', 'two_wheeler',
+  'visibility', 'visibility_off', 'volume_off', 'volume_up', 'water_drop',
+  'wc', 'wind_power', 'workspace_premium'
 ].sort();
 
 // Request full axis RANGES (not pinned values) so the served woff2 keeps the
@@ -55,6 +58,39 @@ const FONT_CSS_URL =
 // A browser UA is required or Google serves legacy (non-woff2) font formats.
 const BROWSER_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
+/**
+ * Verifies every requested icon actually exists.
+ *
+ * This matters because the css2 endpoint happily returns 200 for names that
+ * don't exist ('crane' and 'monument' both do) and silently omits them from the
+ * font — the app then renders the literal text "crane" on a card, and nothing
+ * else catches it. This metadata endpoint is the authoritative list.
+ */
+async function assertIconsExist(names) {
+  let known;
+  try {
+    const res = await fetch('https://fonts.google.com/metadata/icons?incomplete=1&key=material_symbols');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    // The payload is prefixed with an anti-JSON-hijacking guard.
+    const json = JSON.parse((await res.text()).replace(/^\)\]\}'/, ''));
+    known = new Set(json.icons.map((i) => i.name));
+  } catch (err) {
+    console.warn(`  ! could not verify icon names (${err.message}) — skipping check`);
+    return;
+  }
+
+  const missing = names.filter((n) => !known.has(n));
+  if (missing.length > 0) {
+    console.error(
+      `\nThese icon names do not exist in Material Symbols:\n  ${missing.join(', ')}\n\n` +
+        `Fix them in ICON_NAMES (and wherever they're used in src/data/) before re-running.\n` +
+        `Search the real catalogue at https://fonts.google.com/icons`
+    );
+    process.exit(1);
+  }
+  console.log(`  ok all ${names.length} icon names exist`);
+}
 
 async function download(url, dest, headers = {}) {
   const res = await fetch(url, { headers });
@@ -109,6 +145,9 @@ for (const [file, url] of Object.entries(AUDIO)) {
   await rm(oggPath);
   console.log(`  ok ${path.basename(m4aPath)} (transcoded)`);
 }
+
+console.log('Verifying icon names against the Material Symbols catalogue');
+await assertIconsExist(ICON_NAMES);
 
 console.log('Downloading Material Symbols Rounded font -> public/fonts/');
 await mkdir(path.join(publicDir, 'fonts'), { recursive: true });

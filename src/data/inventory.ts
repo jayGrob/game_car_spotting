@@ -46,6 +46,68 @@ export const masterInventory: InventoryItem[] = [
     icon: 'pedal_bike', color: 'text-cyan-600', bg: 'bg-cyan-50',
     bonus: { question: 'Is the rider wearing a helmet?', options: [{ label: 'No', mult: 1 }, { label: 'Yes!', mult: 2, isBonus: true }] }
   },
+  {
+    id: 48, theme: 'city', category: 'vehicle', name: 'Garbage Truck', points: 20,
+    icon: 'delete', color: 'text-green-700', bg: 'bg-green-50',
+    bonus: { question: 'Is it emptying a bin?', options: [{ label: 'Just driving', mult: 1 }, { label: 'Emptying a bin!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 49, theme: 'city', category: 'vehicle', name: 'Food Truck', points: 20,
+    icon: 'lunch_dining', color: 'text-orange-500', bg: 'bg-orange-50',
+    bonus: { question: 'Is there a line of people?', options: [{ label: 'No line', mult: 1 }, { label: 'A whole line!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 50, theme: 'city', category: 'vehicle', name: 'Ice Cream Truck', points: 25,
+    icon: 'icecream', color: 'text-pink-500', bg: 'bg-pink-50',
+    bonus: { question: 'Music playing — or did you get one?', options: [{ label: 'Just driving', mult: 1 }, { label: 'Playing music!', mult: 2, isBonus: true }, { label: 'We got one!!', mult: 4, isBonus: true }] }
+  },
+  {
+    // Material Symbols has no crane glyph; this articulated arm is the closest.
+    id: 51, theme: 'city', category: 'object', name: 'Construction Crane', points: 20,
+    icon: 'precision_manufacturing', color: 'text-yellow-600', bg: 'bg-yellow-50',
+    bonus: { question: 'Is it actually moving?', options: [{ label: 'Sitting still', mult: 1 }, { label: 'Moving!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 52, theme: 'city', category: 'creature', name: 'Dog Being Walked', points: 15,
+    icon: 'sound_detection_dog_barking', color: 'text-amber-700', bg: 'bg-amber-50',
+    bonus: { question: 'How many dogs?', options: [{ label: 'Just one', mult: 1 }, { label: 'Two!', mult: 2, isBonus: true }, { label: 'Three or more!', mult: 3, isBonus: true }] }
+  },
+  {
+    id: 53, theme: 'city', category: 'vehicle', name: 'Person on a Scooter', points: 10,
+    icon: 'electric_scooter', color: 'text-cyan-600', bg: 'bg-cyan-50',
+    bonus: { question: 'Wearing a helmet?', options: [{ label: 'No helmet', mult: 1 }, { label: 'Helmet on!', mult: 2, isBonus: true }] }
+  },
+  {
+    // No statue glyph exists either — this standing figure reads as one.
+    id: 54, theme: 'city', category: 'object', name: 'Statue', points: 15,
+    icon: 'accessibility_new', color: 'text-stone-600', bg: 'bg-stone-100',
+    bonus: { question: 'Is it a person on a horse?', options: [{ label: 'Just a statue', mult: 1 }, { label: 'On a horse!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 55, theme: 'city', category: 'object', name: 'Skyscraper', points: 10,
+    icon: 'apartment', color: 'text-slate-600', bg: 'bg-slate-100',
+    bonus: { question: 'More than 10 floors?', options: [{ label: '10 or fewer', mult: 1 }, { label: 'More than 10!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 56, theme: 'city', category: 'vehicle', name: 'Street Sweeper', points: 20,
+    icon: 'cleaning_services', color: 'text-teal-600', bg: 'bg-teal-50',
+    bonus: { question: 'Are its brushes running?', options: [{ label: 'Just driving', mult: 1 }, { label: 'Brushes going!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 57, theme: 'city', category: 'creature', name: 'Pigeon', points: 5,
+    icon: 'raven', color: 'text-slate-500', bg: 'bg-slate-100',
+    bonus: { question: 'Just one, or a whole flock?', options: [{ label: 'Just one', mult: 1 }, { label: 'A whole flock!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 58, theme: 'city', category: 'vehicle', name: 'Mail Truck', points: 15,
+    icon: 'local_post_office', color: 'text-blue-600', bg: 'bg-blue-50',
+    bonus: { question: 'Is the driver out delivering?', options: [{ label: 'In the truck', mult: 1 }, { label: 'Out delivering!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 59, theme: 'city', category: 'object', name: 'Billboard', points: 5,
+    icon: 'ad', color: 'text-fuchsia-600', bg: 'bg-fuchsia-50',
+    bonus: { question: 'Is it a digital one that changes?', options: [{ label: 'Regular', mult: 1 }, { label: 'Digital!', mult: 2, isBonus: true }] }
+  },
 
   // ---------- Highway ----------
   {
