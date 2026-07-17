@@ -30,7 +30,8 @@ const AUDIO = {
 // shrinks the font from ~5 MB to ~10s of KB.
 const ICON_NAMES = [
   'accessibility_new', 'ad', 'add', 'agriculture', 'airport_shuttle',
-  'ambulance', 'apartment', 'arrow_back', 'bedroom_baby', 'bolt', 'camping',
+  'ambulance', 'apartment', 'arrow_back', 'bedroom_baby', 'bolt', 'bug_report',
+  'camping',
   'car_crash', 'car_rental', 'car_repair', 'casino', 'celebration',
   'cell_tower', 'check', 'check_circle', 'chevron_right', 'cleaning_services',
   'close', 'construction', 'cottage', 'delete', 'diamond', 'directions_bus', 'directions_car', 'edit',

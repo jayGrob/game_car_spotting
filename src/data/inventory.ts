@@ -108,6 +108,14 @@ export const masterInventory: InventoryItem[] = [
     icon: 'ad', color: 'text-fuchsia-600', bg: 'bg-fuchsia-50',
     bonus: { question: 'Is it a digital one that changes?', options: [{ label: 'Regular', mult: 1 }, { label: 'Digital!', mult: 2, isBonus: true }] }
   },
+  {
+    // A VW Beetle. Material Symbols has no Beetle, but the bug glyph is a
+    // rounded beetle shape — which is the joke anyway. Violet keeps the icon
+    // clear of the red/blue the bonus asks about.
+    id: 60, theme: 'city', category: 'vehicle', name: 'Punch Buggy', points: 10,
+    icon: 'bug_report', color: 'text-violet-600', bg: 'bg-violet-50',
+    bonus: { question: 'What color is it?', options: [{ label: 'Another color', mult: 1 }, { label: 'Red!', mult: 2, isBonus: true }, { label: 'Blue!', mult: 3, isBonus: true }] }
+  },
 
   // ---------- Highway ----------
   {
