@@ -33,8 +33,9 @@ const ICON_NAMES = [
   'ambulance', 'apartment', 'arrow_back', 'bedroom_baby', 'bolt', 'bug_report',
   'camping',
   'car_crash', 'car_rental', 'car_repair', 'casino', 'celebration',
-  'cell_tower', 'check', 'check_circle', 'chevron_right', 'cleaning_services',
-  'close', 'construction', 'cottage', 'delete', 'diamond', 'directions_bus', 'directions_car', 'edit',
+  'cell_tower', 'check', 'check_circle', 'chevron_right', 'church',
+  'cleaning_services', 'close', 'construction', 'cottage', 'cruelty_free',
+  'delete', 'diamond', 'directions_bus', 'directions_car', 'edit',
   'edit_road', 'electric_bolt', 'electric_car', 'electric_scooter',
   'emoji_events', 'explore', 'fire_extinguisher', 'fire_truck', 'flag',
   'flash_on', 'flight', 'grass', 'history_edu', 'icecream', 'local_airport',
@@ -45,9 +46,9 @@ const ICON_NAMES = [
   'raven', 'route',
   'rv_hookup', 'search', 'search_check', 'shield', 'skull',
   'sound_detection_dog_barking', 'solar_power', 'speed', 'sports_motorsports',
-  'stars', 'thunderstorm', 'traffic', 'train', 'trophy', 'two_wheeler',
-  'visibility', 'visibility_off', 'volume_off', 'volume_up', 'water_drop',
-  'wc', 'wind_power', 'workspace_premium'
+  'stars', 'storefront', 'thunderstorm', 'traffic', 'train', 'trophy',
+  'two_wheeler', 'visibility', 'visibility_off', 'volume_off', 'volume_up',
+  'warehouse', 'water_drop', 'wc', 'wind_power', 'workspace_premium'
 ].sort();
 
 // Request full axis RANGES (not pinned values) so the served woff2 keeps the

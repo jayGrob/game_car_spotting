@@ -248,6 +248,34 @@ export const masterInventory: InventoryItem[] = [
     icon: 'solar_power', color: 'text-yellow-500', bg: 'bg-yellow-50',
     bonus: { question: 'Are there more than 3?', options: [{ label: '3 or fewer', mult: 1 }, { label: 'More than 3!', mult: 2, isBonus: true }] }
   },
+  {
+    id: 61, theme: 'country', category: 'object', name: 'Barn', points: 10,
+    icon: 'warehouse', color: 'text-red-700', bg: 'bg-red-50',
+    bonus: { question: 'Is it the classic red?', options: [{ label: 'Another color', mult: 1 }, { label: 'Classic red!', mult: 2, isBonus: true }] }
+  },
+  {
+    // A roadside produce stand.
+    id: 62, theme: 'country', category: 'object', name: 'Farm Stand', points: 15,
+    icon: 'storefront', color: 'text-lime-700', bg: 'bg-lime-50',
+    bonus: { question: 'Is someone selling there?', options: [{ label: 'Closed up', mult: 1 }, { label: 'Someone selling!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 63, theme: 'country', category: 'object', name: 'Country Church', points: 15,
+    icon: 'church', color: 'text-stone-600', bg: 'bg-stone-100',
+    bonus: { question: 'Does it have a steeple?', options: [{ label: 'No steeple', mult: 1 }, { label: 'Steeple!', mult: 2, isBonus: true }] }
+  },
+  {
+    id: 64, theme: 'country', category: 'creature', name: 'Rabbit', points: 15,
+    icon: 'cruelty_free', color: 'text-amber-600', bg: 'bg-amber-50',
+    bonus: { question: 'Did it hop away?', options: [{ label: 'Sat still', mult: 1 }, { label: 'Hopped away!', mult: 2, isBonus: true }] }
+  },
+  {
+    // Shares the tractor glyph (no combine exists); yellow keeps it distinct
+    // from the green Tractor on the same board.
+    id: 65, theme: 'country', category: 'vehicle', name: 'Combine Harvester', points: 25,
+    icon: 'agriculture', color: 'text-yellow-600', bg: 'bg-yellow-50',
+    bonus: { question: 'Is it out harvesting?', options: [{ label: 'Parked', mult: 1 }, { label: 'Harvesting!', mult: 2, isBonus: true }] }
+  },
 
   // ---------- General (mixed into every theme) ----------
   {
